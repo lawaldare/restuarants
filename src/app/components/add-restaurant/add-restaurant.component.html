@@ -1,0 +1,50 @@
+<div class="card mt-5">
+  <div class="card-body">
+    <h5 class="card-title text-center text-capitalize">Add new restaurant</h5>
+    <hr>
+    <form #resForm="ngForm" class="form" (ngSubmit)="add(resForm)">
+      <div class="form-group flex-column text-left">
+        <label>
+          <span class="header-text mb-1 font-14 text-dark-grey weight-normal">Name</span>
+        </label>
+        <input autocomplete="off" required type="text" [(ngModel)]="name" name="name" class="form-control w-100" />
+      </div>
+      <div class="form-group flex-column text-left">
+        <label>
+          <span class=" header-text mb-1 font-14 text-dark-grey weight-normal">Description</span>
+        </label>
+        <input autocomplete="off" required type="text" [(ngModel)]="description" name="description"
+          class="form-control w-100" />
+      </div>
+      <div class="form-group flex-column text-left">
+        <label>
+          <span class=" header-text mb-1 font-14 text-dark-grey weight-normal">Logo URL</span>
+        </label>
+        <input autocomplete="off" required type="text" [(ngModel)]="logo" name="logo" class="form-control w-100" />
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group flex-column text-left">
+            <label for="bvn">
+              <span class=" header-text mb-1 font-14 text-dark-grey weight-normal">Lat</span>
+            </label>
+            <input autocomplete="off" required type="number" [(ngModel)]="lat" name="lat" class="form-control w-100" />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group flex-column text-left">
+            <label for="bvn">
+              <span class=" header-text mb-1 font-14 text-dark-grey weight-normal">Log</span>
+            </label>
+            <input autocomplete="off" required type="number" [(ngModel)]="log" name="log" class="form-control w-100" />
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" name="submit" [disabled]="resForm.invalid" class="btn col-4 mt-2 mb-3 text-center">
+        Submit
+      </button>
+
+    </form>
+  </div>
+</div>
