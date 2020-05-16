@@ -22,6 +22,7 @@ export class EditRestaurantsComponent implements OnInit {
   log: number;
   restaurants: RestaurantInterface[];
   restaurant: RestaurantInterface;
+  isLoading: boolean = false;
 
   newRes = new RestaurantInterface();
 
@@ -51,6 +52,7 @@ export class EditRestaurantsComponent implements OnInit {
 
 
   update(form: NgForm) {
+    this.isLoading = true;
     this.res.delete(this.id).subscribe(data => {
       let location: any = {};
       this.newRes.name = form.value.name;
@@ -61,6 +63,7 @@ export class EditRestaurantsComponent implements OnInit {
       this.newRes.location = location;
 
       this.res.addRestaurant(this.newRes).subscribe(data => {
+        this.isLoading = false;
         this.toastr.success('Restaurant successfully updated!');
         form.resetForm();
         this.router.navigate(['restaurants'])
