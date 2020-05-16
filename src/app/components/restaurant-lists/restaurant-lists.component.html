@@ -1,23 +1,28 @@
-<div class="list-group mt-5 box">
-  <a href="#" class="list-group-item list-group-item-action active">
-    Restaurants
-  </a>
-  <div class="list-group-item list-group-item-action position-relative res" *ngFor="let res of restaurants | paginate: { id: 'foo',
-  itemsPerPage: 10,
-  currentPage: page,
-  totalItems: total }" (click)="openMap(res)">
+<div class="list-group mt-5 box" *ngFor="let res of restaurants | paginate: { id: 'foo',
+itemsPerPage: 10,
+currentPage: page,
+totalItems: total }">
+  <div class="header d-flex justify-content-between align-items-center w-100">
+    <div href="#"
+      class="list-group-item list-group-item-action active d-flex justify-content-between align-items-center w-100 flex-wrap">
+      {{res.name}}
+      <div class="btns">
+        <button type="submit" class="btn btn-danger mt-2 mb-3 mr-3 text-center " (click)="delete(res.id)">
+          X
+        </button>
+        <button type="submit" class=" edit btn btn-warning mt-2 mb-3 text-center " (click)="goToEditPage(res.id)">
+          🗡
+        </button>
+      </div>
+    </div>
+
+  </div>
+  <div class="list-group-item list-group-item-action position-relative res" (click)="openMap(res)">
     <img [src]="res.logo" alt="" class="icon">
     <div class="right">
-      <p class="name">{{res.name}}</p>
       <p class="dec">{{res.description}}</p>
     </div>
-    <button type="submit" class="btn btn-danger col-3 mt-2 mb-3 text-center position-absolute" (click)="delete(res.id)">
-      X
-    </button>
-    <button type="submit" class=" edit btn btn-warning col-3 mt-2 mb-3 text-center position-absolute"
-      (click)="goToEditPage(res.id)">
-      🗡
-    </button>
+
   </div>
 
 </div>
@@ -26,4 +31,9 @@
   <pagination-controls id="foo" maxSize="5" directionLinks="true" responsive="true" (pageChange)="page = $event"
     class="text-center mt-5">
   </pagination-controls>
+</div>
+
+
+<div id="loading-overlay" *ngIf="isLoading">
+  <i class="fa fa-3x fa-spinner fa-spin"></i>
 </div>

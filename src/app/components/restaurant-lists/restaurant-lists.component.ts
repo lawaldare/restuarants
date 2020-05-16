@@ -24,6 +24,7 @@ export class RestaurantListsComponent implements OnInit {
   lat: number;
   lng: number;
   modalRef: BsModalRef;
+  isLoading: boolean = false;
 
   constructor(private res: RestaurantService, private toastr: ToastrService, private router: Router, private modalService: BsModalService) { }
 
@@ -32,6 +33,7 @@ export class RestaurantListsComponent implements OnInit {
   }
 
   getAllRes() {
+    this.isLoading = true;
     this.res.getRestaurants().pipe(map(responseData => {
       const resArray: RestaurantInterface[] = [];
       for (const key in responseData) {
@@ -41,6 +43,7 @@ export class RestaurantListsComponent implements OnInit {
       }
       return resArray;
     })).subscribe(data => {
+      this.isLoading = false;
       this.restaurants = data.reverse();
       this.total = this.restaurants.length;
     })

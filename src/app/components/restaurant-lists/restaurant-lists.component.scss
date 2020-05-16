@@ -3,14 +3,16 @@
   overflow: scroll;
 }
 
-// img {
-//   height: 100px;
-//   width: 100%;
-// }
+
+.list-group-item {
+  padding: 0.05rem 1.25rem !important;
+  border-bottom-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
+
 
 button {
-  right: 20px;
-  top: 20px;
+
   width: max-content;
 }
 
