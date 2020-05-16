@@ -22,6 +22,8 @@ import { AddRestaurantComponent } from './components/add-restaurant/add-restaura
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { EditRestaurantsComponent } from './components/edit-restaurants/edit-restaurants.component';
 import { MapComponent } from './components/map/map.component';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { MapComponent } from './components/map/map.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    SweetAlert2Module.forRoot(),
     ModalModule.forRoot(),
     BrowserAnimationsModule,
     ToastrModule.forRoot(),

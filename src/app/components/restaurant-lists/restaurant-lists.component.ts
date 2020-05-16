@@ -6,6 +6,8 @@ import { map } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+
 
 
 
@@ -51,12 +53,29 @@ export class RestaurantListsComponent implements OnInit {
 
 
   delete(id) {
-    this.res.delete(id).subscribe(data => {
-      this.toastr.success('Restaurant successfully deleted!');
-      this.getAllRes()
-    }, error => {
-      this.toastr.error('There is a problem deleting the restaurant');
+    Swal.fire({
+      title: 'Are you sure?',
+      text: `You will not be able to recover the restaurant`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+        this.res.delete(id).subscribe(data => {
+          Swal.fire(
+            'Deleted!',
+            'Plan deleted successfully',
+            'success'
+          )
+          // this.toastr.success('Restaurant successfully deleted!');
+          this.getAllRes()
+        }, error => {
+          this.toastr.error('There is a problem deleting the restaurant');
+        })
+      }
     })
+
   }
 
   goToEditPage(id) {
