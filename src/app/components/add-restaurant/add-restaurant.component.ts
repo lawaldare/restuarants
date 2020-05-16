@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { RestaurantInterface } from 'src/app/models/restaurant.model';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-restaurant',
@@ -11,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class AddRestaurantComponent implements OnInit {
 
-  constructor(private resService: RestaurantService, private toastr: ToastrService) { }
+  constructor(private resService: RestaurantService, private toastr: ToastrService, private router: Router) { }
 
   name: string;
   description: string;
@@ -23,7 +24,6 @@ export class AddRestaurantComponent implements OnInit {
   res = new RestaurantInterface();
 
   ngOnInit() {
-    console.log(this.res);
 
   }
 
@@ -38,9 +38,12 @@ export class AddRestaurantComponent implements OnInit {
     this.res.location = location;
 
     this.resService.addRestaurant(this.res).subscribe(data => {
-      console.log(data);
+      this.toastr.success('Restaurant successfully added!');
       form.resetForm();
+      this.router.navigate(['restaurants'])
 
+    }, error => {
+      this.toastr.error('There is a problem in adding restaurant')
     })
 
 

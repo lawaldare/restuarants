@@ -16,12 +16,22 @@ export class RestaurantService {
 
 
   getRestaurants() {
-    return this.httpClient.get(this.URL);
+    return this.httpClient.get(`${this.URL}res.json`);
   }
 
   addRestaurant(res: RestaurantInterface) {
+    return this.httpClient.post(`${this.URL}res.json`, res);
+  }
 
-    return this.httpClient.post(this.URL, res);
+  delete(id: string) {
+    return this.httpClient.delete(`${this.URL}res/${id}.json`);
+  }
 
+  edit(id: string, body) {
+    return this.httpClient.patch(`${this.URL}res/${id}.json`, body);
+  }
+
+  getSingleRestaurant(id: string) {
+    return this.httpClient.get(`${this.URL}res/${id}.json`);
   }
 }

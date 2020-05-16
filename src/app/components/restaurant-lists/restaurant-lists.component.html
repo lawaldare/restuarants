@@ -1,9 +1,29 @@
-<div class="list-group mt-5">
+<div class="list-group mt-5 box">
   <a href="#" class="list-group-item list-group-item-action active">
-    Cras justo odio
+    Restaurants
   </a>
-  <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-  <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-  <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
-  <a href="#" class="list-group-item list-group-item-action">Vestibulum at eros</a>
+  <div class="list-group-item list-group-item-action position-relative res" *ngFor="let res of restaurants | paginate: { id: 'foo',
+  itemsPerPage: 10,
+  currentPage: page,
+  totalItems: total }" (click)="openMap(res)">
+    <img [src]="res.logo" alt="" class="icon">
+    <div class="right">
+      <p class="name">{{res.name}}</p>
+      <p class="dec">{{res.description}}</p>
+    </div>
+    <button type="submit" class="btn btn-danger col-3 mt-2 mb-3 text-center position-absolute" (click)="delete(res.id)">
+      X
+    </button>
+    <button type="submit" class=" edit btn btn-warning col-3 mt-2 mb-3 text-center position-absolute"
+      (click)="goToEditPage(res.id)">
+      🗡
+    </button>
+  </div>
+
+</div>
+
+<div class="pagination-bar mt-5">
+  <pagination-controls id="foo" maxSize="5" directionLinks="true" responsive="true" (pageChange)="page = $event"
+    class="text-center mt-5">
+  </pagination-controls>
 </div>

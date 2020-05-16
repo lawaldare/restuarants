@@ -1,5 +1,14 @@
+import { MapComponent } from './../map/map.component';
 import { RestaurantService } from './../../services/restaurant.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { RestaurantInterface } from 'src/app/models/restaurant.model';
+import { map } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+
+
+
 
 @Component({
   selector: 'app-restaurant-lists',
@@ -8,17 +17,55 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RestaurantListsComponent implements OnInit {
 
-  constructor(private res: RestaurantService) { }
+  restaurants: RestaurantInterface[];
+  restaurant: RestaurantInterface
+  page: number = 1;
+  total: number;
+  lat: number;
+  lng: number;
+  modalRef: BsModalRef;
+
+  constructor(private res: RestaurantService, private toastr: ToastrService, private router: Router, private modalService: BsModalService) { }
 
   ngOnInit() {
     this.getAllRes()
   }
 
   getAllRes() {
-    this.res.getRestaurants().subscribe(data => {
-      console.log(data);
-
+    this.res.getRestaurants().pipe(map(responseData => {
+      const resArray: RestaurantInterface[] = [];
+      for (const key in responseData) {
+        if (responseData.hasOwnProperty(key)) {
+          resArray.push({ ...responseData[key], id: key });
+        }
+      }
+      return resArray;
+    })).subscribe(data => {
+      this.restaurants = data.reverse();
+      this.total = this.restaurants.length;
     })
   }
 
+
+  delete(id) {
+    this.res.delete(id).subscribe(data => {
+      this.toastr.success('Restaurant successfully deleted!');
+      this.getAllRes()
+    }, error => {
+      this.toastr.error('There is a problem deleting the restaurant');
+    })
+  }
+
+  goToEditPage(id) {
+    this.router.navigate([id, 'edit']);
+  }
+
+  openMap(res) {
+    this.modalRef = this.modalService.show(MapComponent, {
+      backdrop: "static",
+      initialState: { res: res }
+    });
+  }
 }
+
+
